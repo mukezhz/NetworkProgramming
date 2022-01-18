@@ -34,24 +34,24 @@ RM = rm -r
 server: $(BINDIR)/$(SERVER)
 $(BINDIR)/$(SERVER): $(SERVEROBJ) $(OBJ)
 	$(CC) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
-$(SERVEROBJDIR)/%.o: $(SERVERSRCDIR)/*.c
+$(SERVEROBJDIR)/%.o: $(SERVERSRCDIR)/%$(EXT)
 	$(CC) $(CXXFLAGS) -o $@ -c $< $(LDFLAGS)
-$(OBJDIR)/%.o: $(SRCDIR)/*.c
-	$(CC) $(CXXFLAGS) -o $@ -c $< $(LDFLAGS)
+$(OBJDIR)/%.o: $(SRCDIR)/%$(EXT)
+	$(CC) $(CXXFLAGS) -o $@ -c $^ $(LDFLAGS)
 
 client: $(BINDIR)/$(CLIENT)
 $(BINDIR)/$(CLIENT): $(CLIENTOBJ) $(OBJ)
 	$(CC) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
-$(CLIENTOBJDIR)/%.o: $(CLIENTSRCDIR)/*.c
+$(CLIENTOBJDIR)/%.o: $(CLIENTSRCDIR)/%$(EXT)
 	$(CC) $(CXXFLAGS) -o $@ -c $< $(LDFLAGS)
-$(OBJDIR)/%.o: $(SRCDIR)/*.c
+$(OBJDIR)/%.o: $(SRCDIR)/%$(EXT)
 	$(CC) $(CXXFLAGS) -o $@ -c $< $(LDFLAGS)
 
 ################### Cleaning rules for Unix-based OS ###################
 # Cleans complete project
 .PHONY: clean
 clean:
-	$(RM) ./obj/server/* ./obj/client/* ./bin/*
+	$(RM) ./obj/server/* ./obj/client/* ./bin/* ./obj/*.o
 
 .PHONY: dir
 dir:
