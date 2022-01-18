@@ -7,6 +7,8 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+#include "assignment.h"
+
 #define BUFFSIZE 1024
 
 typedef struct sockaddr SA;
@@ -33,17 +35,14 @@ int main(int argc, char const *argv[])
     serverinfo.sin_family = AF_INET;
     serverinfo.sin_port = ntohs(atoi(argv[4]));
     printf("Host %s\n", argv[2]);
+    // serverinfo.sin_addr.s_addr = inet_addr(argv[2]);
     if ((inet_pton(AF_INET, argv[2], &serverinfo.sin_addr)) < 0)
-    {
-        printf("Invalid server info\n");
-        exit(EXIT_FAILURE);
-    }
-    if ((connect(sockfd, (SA *)&serverinfo, sizeof(serverinfo))) < 0)
-    {
-        printf("Connection error\n");
-        exit(EXIT_FAILURE);
-    }
-    write(sockfd, argv[6], strlen(argv[6]));
+        error_handle("Invalid server info\n");
+
+    if ((connect(sockfd, (SA *)&serverinfo, sizeof(serverinfo))) == -1)
+        error_handle("Connection Error\n");
+
+    send(sockfd, argv[6], strlen(argv[6]), 0);
     close(sockfd);
     return 0;
 }

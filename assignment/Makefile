@@ -23,8 +23,7 @@ SRC 	  = $(wildcard $(SRCDIR)/*$(EXT))
 SERVERSRC = $(wildcard $(SERVERSRCDIR)/*$(EXT))
 CLIENTSRC = $(wildcard $(CLIENTSRCDIR)/*$(EXT))
 
-SOBJ 	  = $(SRC:$(SRCDIR)/%$(EXT)=$(SERVEROBJDIR)/%.o)
-COBJ 	  = $(SRC:$(SRCDIR)/%$(EXT)=$(CLIENTOBJDIR)/%.o)
+OBJ 	  = $(SRC:$(SRCDIR)/%$(EXT)=$(OBJDIR)/%.o)
 SERVEROBJ = $(SERVERSRC:$(SERVERSRCDIR)/%$(EXT)=$(SERVEROBJDIR)/%.o)
 CLIENTOBJ = $(CLIENTSRC:$(CLIENTSRCDIR)/%$(EXT)=$(CLIENTOBJDIR)/%.o)
 
@@ -33,15 +32,19 @@ RM = rm -r
 ####################### Targets beginning here #########################
 ########################################################################
 server: $(BINDIR)/$(SERVER)
-$(BINDIR)/$(SERVER): $(SERVEROBJ) $(SOBJ)
-	$(CC) $(CXXFLAGS) -o $@ $< $(LDFLAGS)
-$(SERVEROBJDIR)/%.o: src/server/*.c src/*.c
+$(BINDIR)/$(SERVER): $(SERVEROBJ) $(OBJ)
+	$(CC) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
+$(SERVEROBJDIR)/%.o: $(SERVERSRCDIR)/*.c
+	$(CC) $(CXXFLAGS) -o $@ -c $< $(LDFLAGS)
+$(OBJDIR)/%.o: $(SRCDIR)/*.c
 	$(CC) $(CXXFLAGS) -o $@ -c $< $(LDFLAGS)
 
 client: $(BINDIR)/$(CLIENT)
-$(BINDIR)/$(CLIENT): $(CLIENTOBJ) $(COBJ)
-	$(CC) $(CXXFLAGS) -o $@ $< $(LDFLAGS)
-$(CLIENTOBJDIR)/%.o: src/client/*.c src/*.c
+$(BINDIR)/$(CLIENT): $(CLIENTOBJ) $(OBJ)
+	$(CC) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
+$(CLIENTOBJDIR)/%.o: $(CLIENTSRCDIR)/*.c
+	$(CC) $(CXXFLAGS) -o $@ -c $< $(LDFLAGS)
+$(OBJDIR)/%.o: $(SRCDIR)/*.c
 	$(CC) $(CXXFLAGS) -o $@ -c $< $(LDFLAGS)
 
 ################### Cleaning rules for Unix-based OS ###################

@@ -7,6 +7,8 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+#include "assignment.h"
+
 #define LISTENQ 10
 #define BUFFSIZE 1024
 
@@ -25,10 +27,7 @@ int main(int argc, char const *argv[])
     }
 
     if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
-    {
-        printf("Socket creation error\n");
-        exit(EXIT_FAILURE);
-    }
+        error_handle("Socket Creation Error\n");
 
     memset(&serverinfo, 0, sizeof(serverinfo));
 
@@ -37,17 +36,11 @@ int main(int argc, char const *argv[])
     serverinfo.sin_port = ntohs(atoi(argv[2]));
 
     if (bind(sockfd, (SA *)&serverinfo, sizeof(serverinfo)) == -1)
-    {
-        printf("Binding Error\n");
-        exit(EXIT_FAILURE);
-    }
+        error_handle("Binding Error\n");
     printf("Binding Successful to port: %s\n", argv[2]);
 
     if (listen(sockfd, LISTENQ) == -1)
-    {
-        printf("Listening Error\n");
-        exit(EXIT_FAILURE);
-    }
+        error_handle("Listening Error\n");
 
     while (1)
     {
@@ -55,10 +48,7 @@ int main(int argc, char const *argv[])
         memset(&msg, 0, sizeof(msg));
         clientsize = sizeof(clientinfo);
         if ((newsockfd = accept(sockfd, (SA *)&clientinfo, &clientsize)) < 0)
-        {
-            printf("New Socket Formation Error\n");
-            exit(EXIT_FAILURE);
-        }
+            error_handle("New Socket Formation Error\n");
         // recv read are non blocking
         while ((n = read(newsockfd, msg, sizeof(msg))) > 0)
         {
