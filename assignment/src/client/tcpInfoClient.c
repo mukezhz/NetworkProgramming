@@ -15,9 +15,12 @@ typedef struct sockaddr SA;
 
 int main(int argc, char const *argv[])
 {
-    int sockfd, n;
-    char msg[1024];
+    int sockfd, n = 0;
+    char buff[1024];
+    char msg[15] = "Thank you!!!";
     struct sockaddr_in serverinfo;
+    struct Message m;
+
     if ((argc != 7) || (strncmp(argv[1], "-h", 2) != 0) || (strncmp(argv[3], "-p", 2) != 0) || (strncmp(argv[5], "-n", 2) != 0))
     {
         printf("Syntax: %s -h <host address> -p <port> -n <roll no>\n", *argv);
@@ -43,6 +46,34 @@ int main(int argc, char const *argv[])
         error_handle("Connection Error\n");
 
     send(sockfd, argv[6], strlen(argv[6]), 0);
+    n = recv(sockfd, &m, sizeof(m), 0);
+    printf("Server Msg: %s\tStatus: %d\n", m.msg, m.status);
+    if (n > 10)
+        send(sockfd, msg, strlen(msg), 0);
+    char *roll = argv[6];
+    while (1)
+    {
+        memset(&msg, 0, sizeof(msg));
+        memset(&m, 0, sizeof(m));
+        n = read(sockfd, &m, sizeof(m));
+        m.msg[strlen(m.msg)] = 0;
+        printf("SERVER MSG: %s\n", m.msg);
+        printf("Enter message: ");
+        scanf("%s", msg);
+        if (atoi(msg) != 0)
+            strcpy(roll, msg);
+        if (strncmp(msg, "again", 5) == 0)
+        {
+            strcat(msg, " ");
+            strcat(msg, roll);
+        }
+        else if (strncmp(msg, "quit", 4) == 0)
+        {
+            send(sockfd, msg, strlen(msg), 0);
+            break;
+        }
+        send(sockfd, msg, strlen(msg), 0);
+    }
     close(sockfd);
     return 0;
 }
