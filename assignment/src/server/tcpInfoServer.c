@@ -125,7 +125,7 @@ int main(int argc, char const *argv[])
                     // printf("Server:\n%s\n", msg);
                 }
             }
-            strcat(m.msg, "\n***Please enter 'again' or 'quit'***\n");
+            strcat(m.msg, "\n\nDo you want to see your information again?('again' or 'quit')");
             send(connfd, &m, sizeof(m), 0);
         }
         close(connfd);

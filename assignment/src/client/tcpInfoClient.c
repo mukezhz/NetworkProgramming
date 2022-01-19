@@ -47,7 +47,7 @@ int main(int argc, char const *argv[])
 
     send(sockfd, argv[6], strlen(argv[6]), 0);
     n = recv(sockfd, &m, sizeof(m), 0);
-    printf("Server Msg: %s\tStatus: %d\n", m.msg, m.status);
+    printf("SERVER MSG: %s\n", m.msg);
     if (n > 10)
         send(sockfd, msg, strlen(msg), 0);
     char *roll = argv[6];
