@@ -22,7 +22,7 @@ Use select() statement to check if the input is coming from the keyboard or from
 ### Use the following messages rules:
 ### Information messages from the server to client
 
-- 1. Welcome <<Yourname>>, Your unique identification key is <<RegistrationNo.>> (Replace <<Yourname>> and <<Registration>> to your roll no and registration no.)
+- 1. Welcome << Yourname >>, Your unique identification key is << RegistrationNo. >> (Replace <<Yourname>> and <<Registration>> to your roll no and registration no.)
 - 3. Do you want to see your information again?
 
 ### Message from client to server to see information respectively
