@@ -1,4 +1,4 @@
-# Network Programming Assignment
+# [Network Programming Assignment](https://github.com/mukezhz/NetworkProgramming/tree/main/assignment)
 
 Project 1: Design and implement TCP client and TCP Server applications using unix network programming for providing registration numbers to the client.
 
