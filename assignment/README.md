@@ -49,4 +49,11 @@ cd bin/
 
 - The server is started with: ./tcpInfoServer -p port
 - The client is strted with: ./tcpInfoClient -h serveraddress -p port -n IDNumber
+
+For example: we choose port number to be 8000 and IDNumber to be 171505 which displays:
+
+ Welcome Bibek, Your unique identification key is 171505
+
+- The server is started with: ./tcpInfoServer -p 8000
+- The client is strted with: ./tcpInfoClient -h 127.0.0.1 -p 8000 -n 171505
 ```
